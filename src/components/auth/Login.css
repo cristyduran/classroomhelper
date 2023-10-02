@@ -1,14 +1,4 @@
-main {
-
-
-}
 .login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.login-content {
     max-width: 400px;
     margin: 0 auto;
     padding: 20px;

@@ -1,15 +1,17 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Login } from './components/auth/Login';
-import { Register } from './components/auth/Login';
-import { Header } from './components/Header';
+import Header from './components/Header';
+import Brand from './components/Brand';
+import MyRoutes from './components/Routes';
 import './App.css';
 
 function App() {
   return (
     <div className='App'>
       <Header />
+      <Brand />
       <Login />
+      <MyRoutes />
     </div>
   );
 }

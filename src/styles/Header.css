@@ -1,6 +1,6 @@
 /* Header.css */
 
-header {
+.navbar {
     background-color: #2E2787;
     color: #fff;
     padding: 10px 0;
@@ -11,4 +11,4 @@ header {
     font-weight: bold;
     color: #fff;
   }
-
+ 
