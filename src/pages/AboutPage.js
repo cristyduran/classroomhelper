@@ -1,13 +1,13 @@
 import React from 'react';
 
-const Register = () => {
+const AboutPage = () => {
     //Implement registration form here
     return (
         <div>
-            <h2>Register</h2>
+            <h2>About</h2>
             {/* Registration form fields and logic here */}
         </div>
     );
 };
 
-export default Register;
+export default AboutPage;

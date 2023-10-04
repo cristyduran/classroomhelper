@@ -18,7 +18,7 @@ const Header = (args) => {
   return (
     <div>
       <Navbar {...args} className="navbar navbar-expand-md navbar-dark">
-        <NavbarBrand>ClassNotes</NavbarBrand>
+        <NavbarBrand href="/">ClassNotes</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav navbar>

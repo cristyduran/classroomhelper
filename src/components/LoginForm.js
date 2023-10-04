@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Row, Col } from 'reactstrap';
-import './Login.css';
 
-export const Login = () => {
+export const LoginPage = () => {
     const [formData, setFormData] = useState({
         username: '',
         password: '',
@@ -22,7 +21,7 @@ export const Login = () => {
     };
 
     return (
-        <Container fluid className='h-100'>
+        <Container current='LoginPage' fluid className='h-100'>
             <Row className="h-100">
                 <Col
                     md="6"
@@ -62,3 +61,5 @@ export const Login = () => {
         </Container>
     );
 }
+
+export default LoginPage;
