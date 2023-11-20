@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import axios from 'axios';
 
@@ -9,7 +9,14 @@ const RegisterForm = () => {
         name: '',
         username: '',
         password: '',
+        confirmPassword: '',
     });
+
+    const [isUsernameTaken, setIsUsernameTaken] = useState(false);
+
+    useEffect(() => {
+        setIsUsernameTaken(false);
+    }, [formData.username]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -19,8 +26,24 @@ const RegisterForm = () => {
         });
     };
 
+    const checkUsernameAvailability = async () => {
+        try {
+            const response = await axios.post('http://localhost:3001/checkUsername', {
+                username: formData.username,
+            });
+
+            setIsUsernameTaken(!response.data.available);
+        } catch (error) {
+            console.error('Error checking username availability:', error.message);
+        }
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        // check username availability before submitting the registration
+        checkUsernameAvailability();
+
         //handle password mismatch
         if (formData.password !== formData.confirmPassword) {
             console.log("Passwords do not match");
@@ -35,7 +58,7 @@ const RegisterForm = () => {
         })
             .then(res => {
                 console.log('Registration response:', res.data);
-                if (res.data) {
+                if (res.data.success) {
                     alert('Registration successful.');
                     // redirect to the login page
                     window.location.href='/login';
@@ -76,8 +99,10 @@ const RegisterForm = () => {
                                     name="username"
                                     value={formData.username}
                                     onChange={handleChange}
+                                    onBlur={checkUsernameAvailability}
                                     required
                                 />
+                                {isUsernameTaken && <p className='error-message'>Username is already taken.</p>}
                             </div>
                             <div className="form-group">
                                 <label htmlFor="password">Password</label>
