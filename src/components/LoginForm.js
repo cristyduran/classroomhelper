@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { Container, Row, Col } from 'reactstrap';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; 
 
-export const LoginPage = () => {
+export const LoginForm = () => {
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         username: '',
         password: '',
@@ -17,7 +22,20 @@ export const LoginPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        //implement login logic here (eg API request)
+        const { username, password } = formData;
+        console.log('Form Data:', formData);
+        axios.post('http://localhost:3001/validatePassword', { username, password })
+            .then(res => {
+                if (res.data.validation) {
+                    alert('Login Successful.');
+                    navigate('/account');
+                } else {
+                    alert('Login was unsuccessful. Check username and/or password.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     };
 
     return (
@@ -53,7 +71,7 @@ export const LoginPage = () => {
                             />
                         </div>
                         <button type="submit">Log In</button>
-                        <p>New? <a href="/register">Register here.</a></p>
+                        <p>New? <Link to="/register">Register here.</Link></p>
                     </form>
                     </div>
                 </Col>
@@ -62,4 +80,4 @@ export const LoginPage = () => {
     );
 }
 
-export default LoginPage;
+export default LoginForm;

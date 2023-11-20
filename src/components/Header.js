@@ -23,7 +23,7 @@ const Header = (args) => {
         <Collapse isOpen={isOpen} navbar>
           <Nav navbar>
             <NavItem>
-              <Link to="/about">About</Link>
+              <Link to="/login">Login</Link>
             </NavItem>
             <NavItem>
               <Link to="/register">Register</Link>

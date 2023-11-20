@@ -1,5 +1,5 @@
 import { Container } from 'reactstrap';
-import Login from '../components/LoginForm';
+import { Link } from 'react-router-dom';
 
 const HomePage = () => {
     return (
@@ -7,8 +7,8 @@ const HomePage = () => {
             <div className="d-flex flex-column align-items-center m-4">
                 <h1>ClassNotes</h1>
                 <p>A place for classroom music educators to save every day classroom data. Stay organized with ClassNotes.</p>
+                <Link to="/login">Go to Login</Link>
             </div>
-            <Login />
         </Container>
     )
 };

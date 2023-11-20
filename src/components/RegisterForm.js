@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Container, Row, Col } from 'reactstrap'; // Import Container, Row, and Col
+import { Container, Row, Col } from 'reactstrap';
+import axios from 'axios';
+
 
 
 const RegisterForm = () => {
@@ -19,8 +21,33 @@ const RegisterForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Implement registration logic here (e.g., API request)
+        //handle password mismatch
+        if (formData.password !== formData.confirmPassword) {
+            console.log("Passwords do not match");
+            return;
+        }
+        // Implement registration logic (API request)
+        // Make a POST request to /register endpoint
+        axios.post('http://localhost:3001/register', {
+            name: formData.name,
+            username: formData.username,
+            password: formData.password,
+        })
+            .then(res => {
+                console.log('Registration response:', res.data);
+                if (res.data) {
+                    alert('Registration successful.');
+                    // redirect to the login page
+                    window.location.href='/login';
+                } else {
+                    alert('Registration failed.' + res.data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         console.log(formData); // Print form data to the console for testing
+        // add API call here
     };
 
     return (
