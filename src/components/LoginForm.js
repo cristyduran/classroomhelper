@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
+import useAuthentication from './Authentication';
 
-export const LoginForm = () => {
+const LoginForm = () => {
+    const { handleLogin, setIsAuthenticated } = useAuthentication();
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
@@ -24,17 +26,23 @@ export const LoginForm = () => {
         e.preventDefault();
         const { username, password } = formData;
         console.log('Form Data:', formData);
-        axios.post('http://localhost:3001/validatePassword', { username, password })
+
+            axios.post('http://localhost:3001/login', { username, password })
             .then(res => {
-                if (res.data.validation) {
-                    alert('Login Successful.');
-                    navigate('/account');
-                } else {
-                    alert('Login was unsuccessful. Check username and/or password.');
-                }
+              if (res.data.validation) {
+                alert('Login Successful.');
+                const authToken = res.data.authToken;
+                localStorage.setItem('authToken', authToken);
+                handleLogin(authToken);
+                setIsAuthenticated(true);
+                console.log('Received Auth Token:', authToken);
+                navigate('/account');
+              } else {
+                alert('Login was unsuccessful. Check username and/or password.');
+              }
             })
             .catch(error => {
-                console.error('Error:', error);
+              console.error('Error:', error);
             });
     };
 

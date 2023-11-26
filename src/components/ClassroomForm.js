@@ -1,0 +1,158 @@
+// ClassroomForm.js
+import React, { useState } from 'react';
+import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import AddCategory from './AddCategory';
+
+const ClassroomForm = () => {
+    const [classInfo, setClassInfo] = useState({
+        className: '',
+        gradeLevel: '',
+        students: ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+        categories: [],
+    });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setClassInfo((prevClassInfo) => ({
+            ...prevClassInfo,
+            [name]: value,
+        }));
+    };
+
+    const handleStudentNameChange = (index, value) => {
+        setClassInfo((prevClassInfo) => {
+            const updatedStudents = [...prevClassInfo.students];
+            updatedStudents[index] = value;
+            return {
+                ...prevClassInfo,
+                students: updatedStudents,
+            };
+        });
+    };
+
+    const handleAddStudent = () => {
+        setClassInfo((prevClassInfo) => ({
+            ...prevClassInfo,
+            students: [...prevClassInfo.students, ''],
+        }));
+    };
+
+    const handleAddCategory = (newCategory) => {
+        setClassInfo({
+            ...classInfo,
+            categories: [...classInfo.categories, newCategory],
+        });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // Add your logic to handle the form submission
+        console.log('Form submitted:', classInfo);
+    };
+
+    return (
+        <Container>
+            <Form onSubmit={handleSubmit}>
+                <Row className="justify-content-md-center">
+                    <Col sm="12" md="6">
+                        <div className="border border-dark p-3">
+                        <FormGroup>
+                            <Label for="className">Class Name</Label>
+                            <Input
+                                type="text"
+                                name="className"
+                                id="className"
+                                placeholder="Enter class name"
+                                value={classInfo.className}
+                                onChange={handleChange}
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="gradeLevel">Grade Level</Label>
+                            <Input
+                                type="select"
+                                name="gradeLevel"
+                                id="gradeLevel"
+                                value={classInfo.gradeLevel}
+                                onChange={handleChange}
+                            >
+                                <option value="">Select Grade Level</option>
+                                <option value="k">Kindergarten</option>
+                                <option value="1">1st Grade</option>
+                                <option value="2">2nd Grade</option>
+                                <option value="3">3rd Grade</option>
+                                <option value="4">4th Grade</option>
+                                <option value="5">5th Grade</option>
+                                <option value="6">6th Grade</option>
+                                <option value="7">7th Grade</option>
+                                <option value="8">8th Grade</option>
+                                <option value="9">9th Grade</option>
+                                <option value="10">10 Grade</option>
+                                <option value="11">11th Grade</option>
+                                <option value="12">12th Grade</option>
+                            </Input>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label>Student Names</Label>
+                            {classInfo.students.map((student, index) => (
+                                <div key={index} className="d-flex align-items-center mb-2">
+                                    <Input
+                                        type="text"
+                                        placeholder={`Student ${index + 1}`}
+                                        value={student}
+                                        onChange={(e) => handleStudentNameChange(index, e.target.value)}
+                                    />
+                                </div>
+                            ))}
+                            <Button type="button" onClick={handleAddStudent}>
+                                Add More Students
+                            </Button>
+                        </FormGroup>
+                        </div>
+                    </Col>
+
+                    <Col sm="12" md="6">
+                        <Row>
+                            <Col>
+                                <FormGroup>
+                                    <AddCategory onAddCategory={handleAddCategory} />
+                                </FormGroup>
+                            </Col>
+                        </Row>
+
+                        {/* Display added categories */}
+                        <Row>
+                            <Col>
+                                  <div className="mt-3 border border-dark p-3">
+                                    <h5>Added Categories</h5>
+                                    <ul>
+                                        {classInfo.categories.map((category, index) => (
+                                            <li key={index}>
+                                                {category.category} - {/* render your FontAwesomeIcon here */}
+                                                <Button size="sm" color="danger">
+                                                    X
+                                                </Button>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </Col>
+                        </Row>
+                    </Col>
+                </Row>
+
+
+                <Row className="justify-content-center">
+                    <Col xs="auto" className="text-center">
+                        <Button color="primary" type="submit" className="btn-md m-4">
+                            Save
+                        </Button>
+                    </Col>
+                </Row>
+
+            </Form>
+        </Container >
+    );
+};
+
+export default ClassroomForm;
