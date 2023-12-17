@@ -10,11 +10,11 @@ const AccountPage = () => {
             </div>
             <div class="text-center">
                 <Link to="newclass">
-                <Button
-                    color="primary"
-                >
-                    Add a Class
-                </Button>
+                    <Button
+                        color="primary"
+                    >
+                        Add a Class
+                    </Button>
                 </Link>
             </div>
         </Container>

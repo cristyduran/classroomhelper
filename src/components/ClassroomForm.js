@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import AddCategory from './AddCategory';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const ClassroomForm = () => {
     const [classInfo, setClassInfo] = useState({
@@ -44,6 +45,12 @@ const ClassroomForm = () => {
         });
     };
 
+    const handleDeleteCategory = (index) => {
+        const updatedCategories = [...classInfo.categories];
+        updatedCategories.splice(index, 1);
+        setClassInfo({ ...classInfo, categories: updatedCategories});
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         // Add your logic to handle the form submission
@@ -56,58 +63,58 @@ const ClassroomForm = () => {
                 <Row className="justify-content-md-center">
                     <Col sm="12" md="6">
                         <div className="border border-dark p-3">
-                        <FormGroup>
-                            <Label for="className">Class Name</Label>
-                            <Input
-                                type="text"
-                                name="className"
-                                id="className"
-                                placeholder="Enter class name"
-                                value={classInfo.className}
-                                onChange={handleChange}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for="gradeLevel">Grade Level</Label>
-                            <Input
-                                type="select"
-                                name="gradeLevel"
-                                id="gradeLevel"
-                                value={classInfo.gradeLevel}
-                                onChange={handleChange}
-                            >
-                                <option value="">Select Grade Level</option>
-                                <option value="k">Kindergarten</option>
-                                <option value="1">1st Grade</option>
-                                <option value="2">2nd Grade</option>
-                                <option value="3">3rd Grade</option>
-                                <option value="4">4th Grade</option>
-                                <option value="5">5th Grade</option>
-                                <option value="6">6th Grade</option>
-                                <option value="7">7th Grade</option>
-                                <option value="8">8th Grade</option>
-                                <option value="9">9th Grade</option>
-                                <option value="10">10 Grade</option>
-                                <option value="11">11th Grade</option>
-                                <option value="12">12th Grade</option>
-                            </Input>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label>Student Names</Label>
-                            {classInfo.students.map((student, index) => (
-                                <div key={index} className="d-flex align-items-center mb-2">
-                                    <Input
-                                        type="text"
-                                        placeholder={`Student ${index + 1}`}
-                                        value={student}
-                                        onChange={(e) => handleStudentNameChange(index, e.target.value)}
-                                    />
-                                </div>
-                            ))}
-                            <Button type="button" onClick={handleAddStudent}>
-                                Add More Students
-                            </Button>
-                        </FormGroup>
+                            <FormGroup>
+                                <Label for="className">Class Name</Label>
+                                <Input
+                                    type="text"
+                                    name="className"
+                                    id="className"
+                                    placeholder="Enter class name"
+                                    value={classInfo.className}
+                                    onChange={handleChange}
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="gradeLevel">Grade Level</Label>
+                                <Input
+                                    type="select"
+                                    name="gradeLevel"
+                                    id="gradeLevel"
+                                    value={classInfo.gradeLevel}
+                                    onChange={handleChange}
+                                >
+                                    <option value="">Select Grade Level</option>
+                                    <option value="k">Kindergarten</option>
+                                    <option value="1">1st Grade</option>
+                                    <option value="2">2nd Grade</option>
+                                    <option value="3">3rd Grade</option>
+                                    <option value="4">4th Grade</option>
+                                    <option value="5">5th Grade</option>
+                                    <option value="6">6th Grade</option>
+                                    <option value="7">7th Grade</option>
+                                    <option value="8">8th Grade</option>
+                                    <option value="9">9th Grade</option>
+                                    <option value="10">10 Grade</option>
+                                    <option value="11">11th Grade</option>
+                                    <option value="12">12th Grade</option>
+                                </Input>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label>Student Names</Label>
+                                {classInfo.students.map((student, index) => (
+                                    <div key={index} className="d-flex align-items-center mb-2">
+                                        <Input
+                                            type="text"
+                                            placeholder={`Student ${index + 1}`}
+                                            value={student}
+                                            onChange={(e) => handleStudentNameChange(index, e.target.value)}
+                                        />
+                                    </div>
+                                ))}
+                                <Button type="button" onClick={handleAddStudent}>
+                                    Add More Students
+                                </Button>
+                            </FormGroup>
                         </div>
                     </Col>
 
@@ -121,23 +128,33 @@ const ClassroomForm = () => {
                         </Row>
 
                         {/* Display added categories */}
-                        <Row>
+                        <Container className="mt-3 border border-dark p-3">
                             <Col>
-                                  <div className="mt-3 border border-dark p-3">
+                                <Row>
                                     <h5>Added Categories</h5>
+                                </Row>
+                                <Row className='text-center'>
                                     <ul>
                                         {classInfo.categories.map((category, index) => (
-                                            <li key={index}>
-                                                {category.category} - {/* render your FontAwesomeIcon here */}
-                                                <Button size="sm" color="danger">
-                                                    X
-                                                </Button>
+                                            <li key={index} className="d-flex align-items-center justify-content-between mb-2">
+                                                <Col>
+                                                    <span>{category.category}</span>
+                                                </Col>
+                                                <Col>
+                                                    <FontAwesomeIcon icon={category.icon} />
+                                                </Col>
+                                                <Col>
+                                                    <Button size="sm" color="danger" onClick={() => handleDeleteCategory(index)}>
+                                                        X
+                                                    </Button>
+                                                </Col>
                                             </li>
                                         ))}
                                     </ul>
-                                </div>
+                                </Row>
+
                             </Col>
-                        </Row>
+                        </Container>
                     </Col>
                 </Row>
 
