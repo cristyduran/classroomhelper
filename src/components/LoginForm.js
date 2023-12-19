@@ -22,29 +22,37 @@ const LoginForm = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const { username, password } = formData;
-        console.log('Form Data:', formData);
+      
+        try {
+          const response = await axios.post('http://localhost:3001/login', { username, password });
+      
+          if (response.data && response.data.validation !== undefined) {
+            if (response.data.validation) {
+              alert('Login Successful.');
+              const authToken = response.data.authToken;
+              localStorage.setItem('authToken', authToken);
+              handleLogin(authToken);
+              setIsAuthenticated(true);
+              console.log('Received Auth Token:', authToken);
+              navigate('/account');
+            } else {
+              alert('Login was unsuccessful. Check username and/or password.');
+            }
+          } else {
+            console.error('Invalid response format:', response.data);
+            alert('An unexpected error occurred. Please try again.');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('An error occurred. Please try again later.');
+        }
+      };
+      
+      
 
-            axios.post('http://localhost:3001/login', { username, password })
-            .then(res => {
-              if (res.data.validation) {
-                alert('Login Successful.');
-                const authToken = res.data.authToken;
-                localStorage.setItem('authToken', authToken);
-                handleLogin(authToken);
-                setIsAuthenticated(true);
-                console.log('Received Auth Token:', authToken);
-                navigate('/account');
-              } else {
-                alert('Login was unsuccessful. Check username and/or password.');
-              }
-            })
-            .catch(error => {
-              console.error('Error:', error);
-            });
-    };
 
     return (
         <Container current='LoginPage' fluid className='h-100'>
@@ -54,33 +62,33 @@ const LoginForm = () => {
                     className="mx-auto my-auto"
                 >
                     <div className='login-container'>
-                    <h2>Login</h2>
-                    <form onSubmit={handleSubmit}>
-                        <div className="form-group">
-                            <label htmlFor="username">Username</label>
-                            <input
-                                type="text"
-                                id="username"
-                                name="username"
-                                placeholder='Enter your username here'
-                                value={formData.username}
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="password">Password</label>
-                            <input
-                                type="password"
-                                id="password"
-                                name="password"
-                                placeholder='Enter your password here'
-                                value={formData.password}
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <button type="submit">Log In</button>
-                        <p>New? <Link to="/register">Register here.</Link></p>
-                    </form>
+                        <h2>Login</h2>
+                        <form onSubmit={handleSubmit}>
+                            <div className="form-group">
+                                <label htmlFor="username">Username</label>
+                                <input
+                                    type="text"
+                                    id="username"
+                                    name="username"
+                                    placeholder='Enter your username here'
+                                    value={formData.username}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="password">Password</label>
+                                <input
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    placeholder='Enter your password here'
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <button type="submit">Log In</button>
+                            <p>New? <Link to="/register">Register here.</Link></p>
+                        </form>
                     </div>
                 </Col>
             </Row>
