@@ -1,57 +1,53 @@
 import React, { useState } from 'react';
+import { useAuthentication } from './AuthenticationContext';
 import { Container, Row, Col } from 'reactstrap';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import useAuthentication from './Authentication';
+
 
 const LoginForm = () => {
-    const { handleLogin, setIsAuthenticated } = useAuthentication();
+    const { handleLogin } = useAuthentication();
     const navigate = useNavigate();
 
-    const [formData, setFormData] = useState({
-        username: '',
-        password: '',
-    });
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
+        if (name === 'username') {
+            setUsername(value);
+        } else if (name === 'password') {
+            setPassword(value);
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { username, password } = formData;
-      
+
         try {
-          const response = await axios.post('http://localhost:3001/login', { username, password });
-      
-          if (response.data && response.data.validation !== undefined) {
-            if (response.data.validation) {
-              alert('Login Successful.');
-              const authToken = response.data.authToken;
-              localStorage.setItem('authToken', authToken);
-              handleLogin(authToken);
-              setIsAuthenticated(true);
-              console.log('Received Auth Token:', authToken);
-              navigate('/account');
+            const response = await axios.post('http://localhost:3001/login', { username, password });
+
+            if (response.data && response.data.validation !== undefined) {
+                if (response.data.validation) {
+                    alert('Login Successful.');
+                    const authToken = response.data.authToken;
+                    localStorage.setItem('authToken', authToken);
+                    handleLogin(authToken);
+                    console.log('Received Auth Token:', authToken);
+                    navigate('/account');
+                } else {
+                    alert('Login was unsuccessful. Check username and/or password.');
+                }
             } else {
-              alert('Login was unsuccessful. Check username and/or password.');
+                console.error('Invalid response format:', response.data);
+                alert('An unexpected error occurred. Please try again.');
             }
-          } else {
-            console.error('Invalid response format:', response.data);
-            alert('An unexpected error occurred. Please try again.');
-          }
         } catch (error) {
-          console.error('Error:', error);
-          alert('An error occurred. Please try again later.');
+            console.error('Error:', error);
+            alert('An error occurred. Please try again later.');
         }
-      };
-      
-      
+    };
 
 
     return (
@@ -71,7 +67,7 @@ const LoginForm = () => {
                                     id="username"
                                     name="username"
                                     placeholder='Enter your username here'
-                                    value={formData.username}
+                                    value={username}
                                     onChange={handleChange}
                                 />
                             </div>
@@ -82,7 +78,7 @@ const LoginForm = () => {
                                     id="password"
                                     name="password"
                                     placeholder='Enter your password here'
-                                    value={formData.password}
+                                    value={password}
                                     onChange={handleChange}
                                 />
                             </div>

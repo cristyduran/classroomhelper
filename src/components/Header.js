@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useAuthentication } from './AuthenticationContext';
 import {
   Collapse,
   Navbar,
@@ -9,11 +10,10 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import '../styles/Header.css';
-import useAuthentication from './Authentication';
 
 const Header = () => {
   const { isAuthenticated, handleLogout } = useAuthentication();
-
+  console.log('header is now authenticated:', isAuthenticated);
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
@@ -22,7 +22,7 @@ const Header = () => {
     <div>
       {isAuthenticated ? (
         <Navbar className="navbar navbar-expand-md navbar-dark">
-          <NavbarBrand href="account">ClassNotes</NavbarBrand>
+          <NavbarBrand href="/account">ClassNotes</NavbarBrand>
           <NavbarToggler onClick={toggle} />
           <Collapse isOpen={isOpen} navbar>
             <Nav navbar>

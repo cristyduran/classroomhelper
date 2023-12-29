@@ -8,7 +8,7 @@ const AccountPage = () => {
             <div className="d-flex flex-column align-items-center m-4">
                 <h1>My Classes.</h1>
             </div>
-            <div class="text-center">
+            <div className="text-center">
                 <Link to="newclass">
                     <Button
                         color="primary"
