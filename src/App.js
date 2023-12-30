@@ -1,5 +1,6 @@
 import React from 'react';
 import { AuthenticationContextProvider } from './components/AuthenticationContext';
+import PrivateRoute from './components/PrivateRoute';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -10,17 +11,16 @@ import { Routes, Route } from 'react-router-dom';
 import './App.css';
 
 function App() {
-
   return (
     <AuthenticationContextProvider>
       <div className='App'>
         <Header />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="account" element={<AccountPage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
-          <Route path="/account/newclass" element={<NewClassPage />} />
+          <PrivateRoute path="account" element={<AccountPage />} />
+          <PrivateRoute path="/account/newclass" element={<NewClassPage />} />
         </Routes>
       </div>
     </AuthenticationContextProvider>
