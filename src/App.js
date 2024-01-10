@@ -19,8 +19,12 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
-          <PrivateRoute path="account" element={<AccountPage />} />
-          <PrivateRoute path="/account/newclass" element={<NewClassPage />} />
+          {/* <PrivateRoute path="account" element={<AccountPage />} />
+          <PrivateRoute path="/account/newclass" element={<NewClassPage />} /> */}
+        <Route element={<PrivateRoute />}>
+          <Route path='account' element={<AccountPage/>} />
+          <Route path='account/newclass' element={<NewClassPage/>} />
+        </Route>
         </Routes>
       </div>
     </AuthenticationContextProvider>

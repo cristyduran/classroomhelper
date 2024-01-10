@@ -22,7 +22,7 @@ const Header = () => {
     <div>
       {isAuthenticated ? (
         <Navbar className="navbar navbar-expand-md navbar-dark">
-          <NavbarBrand href="/account">ClassNotes</NavbarBrand>
+          <NavbarBrand tag={Link} to="/account">ClassNotes</NavbarBrand>
           <NavbarToggler onClick={toggle} />
           <Collapse isOpen={isOpen} navbar>
             <Nav navbar>
@@ -34,7 +34,7 @@ const Header = () => {
         </Navbar>
       ) : (
         <Navbar className="navbar navbar-expand-md navbar-dark">
-          <NavbarBrand href="/">ClassNotes</NavbarBrand>
+          <NavbarBrand tag={Link} to="/">ClassNotes</NavbarBrand>
           <NavbarToggler onClick={toggle} />
           <Collapse isOpen={isOpen} navbar>
             <Nav navbar>

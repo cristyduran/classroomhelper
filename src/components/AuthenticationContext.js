@@ -42,4 +42,5 @@ export const useAuthentication = () => {
   return useContext(AuthenticationContext);
 };
 
-export default AuthenticationContext; 
+
+export default AuthenticationContext;
