@@ -1,7 +1,7 @@
 // ClassroomForm.js
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
-import AddCategory from './AddCategory';
+import AddAssignment from './AddAssignment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const ClassroomForm = () => {
@@ -9,7 +9,7 @@ const ClassroomForm = () => {
         className: '',
         gradeLevel: '',
         students: ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
-        categories: [],
+        assignments: [],
     });
 
     const handleChange = (e) => {
@@ -38,17 +38,17 @@ const ClassroomForm = () => {
         }));
     };
 
-    const handleAddCategory = (newCategory) => {
+    const handleAddAssignment = (newAssignment) => {
         setClassInfo({
             ...classInfo,
-            categories: [...classInfo.categories, newCategory],
+            assignments: [...classInfo.assignments, newAssignment],
         });
     };
 
-    const handleDeleteCategory = (index) => {
-        const updatedCategories = [...classInfo.categories];
-        updatedCategories.splice(index, 1);
-        setClassInfo({ ...classInfo, categories: updatedCategories});
+    const handleDeleteAssignment = (index) => {
+        const updatedAssignments = [...classInfo.assignments];
+        updatedAssignments.splice(index, 1);
+        setClassInfo({ ...classInfo, assignments: updatedAssignments});
     };
 
     const handleSubmit = (e) => {
@@ -122,29 +122,29 @@ const ClassroomForm = () => {
                         <Row>
                             <Col>
                                 <FormGroup>
-                                    <AddCategory onAddCategory={handleAddCategory} />
+                                    <AddAssignment onAddAssignment={handleAddAssignment} />
                                 </FormGroup>
                             </Col>
                         </Row>
 
-                        {/* Display added categories */}
+                        {/* Display added assignments */}
                         <Container className="mt-3 border border-dark p-3">
                             <Col>
                                 <Row>
-                                    <h5>Added Categories</h5>
+                                    <h5>Added Assignments</h5>
                                 </Row>
                                 <Row className='text-center'>
                                     <ul>
-                                        {classInfo.categories.map((category, index) => (
+                                        {classInfo.assignments.map((assignment, index) => (
                                             <li key={index} className="d-flex align-items-center justify-content-between mb-2">
                                                 <Col>
-                                                    <span>{category.category}</span>
+                                                    <span>{assignment.assignment}</span>
                                                 </Col>
                                                 <Col>
-                                                    <FontAwesomeIcon icon={category.icon} />
+                                                    <FontAwesomeIcon icon={assignment.icon} />
                                                 </Col>
                                                 <Col>
-                                                    <Button size="sm" color="danger" onClick={() => handleDeleteCategory(index)}>
+                                                    <Button size="sm" color="danger" onClick={() => handleDeleteAssignment(index)}>
                                                         X
                                                     </Button>
                                                 </Col>
