@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuthentication } from './AuthenticationContext';
 import { Container, Row, Col } from 'reactstrap';
 import axios from 'axios';
@@ -7,8 +7,15 @@ import { useNavigate } from 'react-router-dom';
 
 
 const LoginForm = () => {
-    const { handleLogin } = useAuthentication();
+    const { handleLogin, isAuthenticated } = useAuthentication();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        // Redirect to account page if user is already authenticated
+        if (isAuthenticated) {
+            navigate('/account');
+        }
+    }, [isAuthenticated, navigate]);
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
