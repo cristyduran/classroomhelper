@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import AddAssignment from './AddAssignment';
+import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const ClassroomForm = () => {
@@ -48,12 +49,39 @@ const ClassroomForm = () => {
     const handleDeleteAssignment = (index) => {
         const updatedAssignments = [...classInfo.assignments];
         updatedAssignments.splice(index, 1);
-        setClassInfo({ ...classInfo, assignments: updatedAssignments});
+        setClassInfo({ ...classInfo, assignments: updatedAssignments });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        const authToken = localStorage.getItem('authToken');
+        console.log('Auth Token:', authToken);
+
         // Add your logic to handle the form submission
+        try {
+            // Assume classInfo is the state containing the form data
+            const response = await axios.post(
+                'http://localhost:3001/classes/createClass',
+                classInfo,
+                {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`
+                    }
+                }
+            );
+
+            if (response.data.success) {
+                console.log('Class created successfully');
+                // Optionally, you can redirect the user or perform other actions
+            } else {
+                console.error('Failed to create class:', response.data.message);
+                // Handle the case where class creation failed
+            }
+        } catch (error) {
+            console.error('Error creating class:', error);
+            // Handle other potential errors, such as network issues
+        }
+
         console.log('Form submitted:', classInfo);
     };
 
