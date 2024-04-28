@@ -4,8 +4,13 @@ import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reac
 import AddAssignment from './AddAssignment';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useNavigate } from 'react-router-dom';
+
 
 const ClassroomForm = () => {
+
+    const navigate = useNavigate();
+
     const [classInfo, setClassInfo] = useState({
         className: '',
         gradeLevel: '',
@@ -73,6 +78,7 @@ const ClassroomForm = () => {
             if (response.data.success) {
                 console.log('Class created successfully');
                 // Optionally, you can redirect the user or perform other actions
+                navigate('/account');
             } else {
                 console.error('Failed to create class:', response.data.message);
                 // Handle the case where class creation failed
