@@ -3,6 +3,8 @@ import { Card, CardBody, CardTitle, Button } from 'reactstrap';
 
 
 const ClassCard = ({ classData }) => {
+    console.log('classData:', classData);
+
     const handleEditClick = () => {
 
     }
@@ -14,8 +16,8 @@ const ClassCard = ({ classData }) => {
     return (
             <Card className="mb-4">
                 <CardBody>
-                    <CardTitle>{classData.className}</CardTitle>
-                    <p>Grade: {classData.grade}</p>
+                    <CardTitle>{classData.class_name}</CardTitle>
+                    <p>Grade: {classData.grade_level}</p>
                     {/* Other class details */}
                     <div  className="">
                         <Button color="link" onClick={handleEditClick}>

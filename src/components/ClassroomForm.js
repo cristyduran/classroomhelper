@@ -88,7 +88,7 @@ const ClassroomForm = () => {
             // Handle other potential errors, such as network issues
         }
 
-        console.log('Form submitted:', classInfo);
+        //console.log('Form submitted:', classInfo);
     };
 
     return (
