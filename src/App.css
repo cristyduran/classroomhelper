@@ -1,5 +1,10 @@
 .App {
     background-color: #e3e5f2;
+    min-height: 100vh;
+    font-family: "Comic Neue", cursive;
+    font-weight: 700;
+    font-size: 18px;
+    font-style: normal;
 } 
 
 .login-container, .register-container {

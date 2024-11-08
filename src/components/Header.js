@@ -25,7 +25,7 @@ const Header = () => {
           <NavbarBrand tag={Link} to="/account">ClassNotes</NavbarBrand>
           <NavbarToggler onClick={toggle} />
           <Collapse isOpen={isOpen} navbar>
-            <Nav navbar>
+            <Nav className="ms-auto" navbar>
               <NavItem>
                 <Link to='/login' onClick={handleLogout}>Logout</Link>
               </NavItem>
@@ -37,8 +37,8 @@ const Header = () => {
           <NavbarBrand tag={Link} to="/">ClassNotes</NavbarBrand>
           <NavbarToggler onClick={toggle} />
           <Collapse isOpen={isOpen} navbar>
-            <Nav navbar>
-              <NavItem>
+            <Nav className="ms-auto" navbar>
+              <NavItem className="me-3">
                 <Link to="/login">Login</Link>
               </NavItem>
               <NavItem>

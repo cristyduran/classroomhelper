@@ -34,7 +34,7 @@ const AccountPage = () => {
     return (
         <Container>
             <div className="d-flex flex-column  align-items-center m-4">
-            <h1>My Classes.</h1>
+                <h1>My Classes.</h1>
             </div>
             <div className="m-2">
                 <Row>

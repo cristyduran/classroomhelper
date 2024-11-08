@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 
@@ -75,8 +76,10 @@ const RegisterForm = () => {
 
     return (
         <Container fluid className="h-100">
-            <Row className="h-100 justify-content-center align-items-center">
-                <Col md="6">
+            <Row className="h-100">
+                <Col md="6"
+                className="mx-auto my-auto"
+                    >
                     <div className="register-container">
                         <h2>Register</h2>
                         <form onSubmit={handleSubmit}>
@@ -127,6 +130,8 @@ const RegisterForm = () => {
                                 />
                             </div>
                             <button type="submit">Register</button>
+                            <p>Already have an account? <Link to="/login">Login.</Link></p>
+
                         </form>
                     </div>
                 </Col>
