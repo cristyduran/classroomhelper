@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Container } from 'reactstrap';
+import { useParams, Link } from 'react-router-dom';
+import { Container, Button, Row, Col } from 'reactstrap';
+import StudentTable from '../components/StudentDataTable';
 import axios from 'axios';
 
 const ClassPage = () => {
@@ -31,6 +32,13 @@ const ClassPage = () => {
 
     return (
         <Container>
+            <div className="text-center m-2">
+                <Link to="/account">
+                    <Button color="primary">
+                        Back
+                    </Button>
+                </Link>
+            </div>
             {
                 classData ? (
                 <div className="d-flex flex-column  align-items-center m-4">
@@ -40,7 +48,9 @@ const ClassPage = () => {
                 ) : (
                     <p>Loading class information...</p>
                 )}
+            <StudentTable />
         </Container>
+        
     );
 };
 
