@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Container, Button, Row, Col } from 'reactstrap';
-import StudentTable from '../components/StudentDataTable';
+import { Container, Button} from 'reactstrap';
+import StudentDataTable from '../components/StudentDataTable';
 import axios from 'axios';
 
 const ClassPage = () => {
@@ -48,7 +48,7 @@ const ClassPage = () => {
                 ) : (
                     <p>Loading class information...</p>
                 )}
-            <StudentTable />
+            <StudentDataTable classId={classId} />
         </Container>
         
     );

@@ -20,7 +20,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
-        <Route element={<PrivateRoute />}>
+          <Route element={<PrivateRoute />}>
           <Route path='/class/:classId' element={<ClassPage />}></Route>
           <Route path='account' element={<AccountPage/>} />
           <Route path='account/newclass' element={<NewClassPage/>} />
