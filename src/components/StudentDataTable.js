@@ -19,6 +19,8 @@ const StudentDataTable = ({ classId }) => {
 
                 const response = await api.get(`/classes/${classId}/student-data`)
 
+                console.log("Student + assignment data:", response.data);
+
                 setStudents(response.data.students);
                 setAssignments(response.data.assignments);
             } catch (error) {
@@ -29,8 +31,8 @@ const StudentDataTable = ({ classId }) => {
     }, [classId]);
 
     // Toggle cell icon
-    const toggleCell = (studentId, assignmentId) => {
-        const key = `${studentId}-${assignmentId}`;
+    const toggleCell = (student_id, assignment_id) => {
+        const key = `${student_id}-${assignment_id}`;
         setCellStatus(prev => ({
             ...prev,
             [key]: !prev[key]
@@ -50,7 +52,8 @@ const StudentDataTable = ({ classId }) => {
             </thead>
             <tbody>
                 {students.map(student => (
-                    <tr key={student.student_name}>
+                    <tr key={student.student_id}>
+                        <td><strong>{student.student_name}</strong></td>
                         {assignments.map(assignment => {
                             const key = `${student.student_id}-${assignment.assignment_id}`;
                             return (
