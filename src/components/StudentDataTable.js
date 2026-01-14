@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Table } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import {
+    faCheck, faHeart,
+    faStar,
+    faMusic,
+    faThumbsUp,
+    faSnowflake,
+    faSun,
+    faFish
+} from '@fortawesome/free-solid-svg-icons';
 import api from '../api/api';
 
 
@@ -14,34 +22,64 @@ const StudentDataTable = ({ classId }) => {
         const fetchData = async () => {
             try {
 
-               /* const authToken = localStorage.getItem('authToken');
-                console.log('Retrieved authToken in studentDataTable:', authToken);*/
-
                 const response = await api.get(`/classes/${classId}/student-data`)
 
                 console.log("Student + assignment data:", response.data);
 
                 setStudents(response.data.students);
                 setAssignments(response.data.assignments);
+
+                const statusMap = {};
+                response.data.rows.forEach(row => {
+                    const key = `${row.student_id}-${row.assignment_id}`;
+                    statusMap[key] = row.completed ===1;
+                });
+                
+                setCellStatus(statusMap);
+
             } catch (error) {
                 console.error('Error fetching student data:', error);
             }
         };
         fetchData();
     }, [classId]);
-
+    
     // Toggle cell icon
-    const toggleCell = (student_id, assignment_id) => {
+    const toggleCell = async (student_id, assignment_id) => {
         const key = `${student_id}-${assignment_id}`;
+        const newValue = !cellStatus[key];
+
         setCellStatus(prev => ({
             ...prev,
-            [key]: !prev[key]
+            [key]: newValue
         }));
+
+        try {
+            await api.post(`/classes/${classId}/complete`, {
+                student_id,
+                assignment_id,
+                completed: newValue
+            });
+        } catch(error) {
+            console.error ('Failed to save completion', error);
+        }
     };
+
+    const iconMap = {
+        check: faCheck,
+        heart: faHeart,
+        star: faStar,
+        music: faMusic,
+        thumbsUp: faThumbsUp,
+        snowflake: faSnowflake,
+        sun: faSun,
+        fish: faFish
+      };
 
     return (
 
-        <Table bordered responsive className="mt-4 text-center">
+        <Table bordered responsive className="mt-4 text-center" striped style={{ border: '#444' }}
+        >
             <thead>
                 <tr>
                     <th>Student</th>
@@ -57,14 +95,16 @@ const StudentDataTable = ({ classId }) => {
                         {assignments.map(assignment => {
                             const key = `${student.student_id}-${assignment.assignment_id}`;
                             return (
-                                <td 
+                                <td
                                     key={assignment.assignment_id}
                                     className="text-center"
                                     style={{ cursor: 'pointer' }}
                                     onClick={() => toggleCell(student.student_id, assignment.assignment_id)}
                                 >
                                     {cellStatus[key] && (
-                                        <FontAwesomeIcon icon={faCheck} color="green" />
+                                        <FontAwesomeIcon 
+                                        icon={iconMap[assignment.assignment_icon] || faCheck} 
+                                        color="green" />
                                     )}
                                 </td>
                             );
