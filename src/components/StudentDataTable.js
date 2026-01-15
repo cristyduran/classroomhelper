@@ -30,7 +30,7 @@ const StudentDataTable = ({ classId }) => {
                 setAssignments(response.data.assignments);
 
                 const statusMap = {};
-                response.data.rows.forEach(row => {
+                response.data.completions.forEach(row => {
                     const key = `${row.student_id}-${row.assignment_id}`;
                     statusMap[key] = row.completed ===1;
                 });
