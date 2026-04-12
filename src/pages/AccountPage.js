@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Button, Col, Row } from 'reactstrap';
 import ClassCard from '../components/ClassCard';
-import axios from 'axios';
+import api from '../api/api';
+
 
 const AccountPage = () => {
     const [ClassData, setClassData] = useState([]);
@@ -18,7 +19,7 @@ const AccountPage = () => {
                 
                 console.log(headers);
                 
-                const response = await axios.get('http://localhost:3001/classes/myClasses', { headers });
+                const response = await api.get('/classes/myClasses', { headers });
                 
                 console.log('Response:', response.data); // Log the response data
                 

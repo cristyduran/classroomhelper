@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Container, Button} from 'reactstrap';
 import StudentDataTable from '../components/StudentDataTable';
-import axios from 'axios';
+import api from '../api/api';
+
 
 const ClassPage = () => {
     const { classId } = useParams();
@@ -19,7 +20,7 @@ const ClassPage = () => {
                 
                 console.log(headers);
 
-                const response = await axios.get(`http://localhost:3001/classes/${classId}`, { headers });
+                const response = await api.get(`/classes/${classId}`, { headers });
 
                 setClassData(response.data);
             } catch (error) {

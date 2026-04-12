@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import AddAssignment from './AddAssignment';
-import axios from 'axios';
+import api from '../api/api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router-dom';
 
@@ -65,8 +65,8 @@ const ClassroomForm = () => {
         // Add your logic to handle the form submission
         try {
             // Assume classInfo is the state containing the form data
-            const response = await axios.post(
-                'http://localhost:3001/classes/createClass',
+            const response = await api.post(
+                '/classes/createClass',
                 classInfo,
                 {
                     headers: {

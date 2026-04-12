@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/api';
 
 
 
@@ -29,7 +29,7 @@ const RegisterForm = () => {
 
     const checkUsernameAvailability = async () => {
         try {
-            const response = await axios.post('http://localhost:3001/checkUsername', {
+            const response = await api.post('/checkUsername', {
                 username: formData.username,
             });
 
@@ -52,7 +52,7 @@ const RegisterForm = () => {
         }
         // Implement registration logic (API request)
         // Make a POST request to /register endpoint
-        axios.post('http://localhost:3001/register', {
+        api.post('/register', {
             name: formData.name,
             username: formData.username,
             password: formData.password,

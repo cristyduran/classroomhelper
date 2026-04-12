@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuthentication } from './AuthenticationContext';
 import { Container, Row, Col } from 'reactstrap';
-import axios from 'axios';
+import api from '../api/api';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
@@ -33,7 +33,7 @@ const LoginForm = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.post('http://localhost:3001/login', { username, password });
+            const response = await api.post('/login', { username, password });
 
             if (response.data && response.data.validation !== undefined) {
                 if (response.data.validation) {
