@@ -10,6 +10,9 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import '../styles/Header.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMusic } from '@fortawesome/free-solid-svg-icons';
+import ClassNotesLogo from '../assets/ClassNotesLogo.png';
 
 const Header = () => {
   const { isAuthenticated, handleLogout } = useAuthentication();
@@ -22,7 +25,10 @@ const Header = () => {
     <div>
       {isAuthenticated ? (
         <Navbar className="navbar navbar-expand-md navbar-dark">
-          <NavbarBrand tag={Link} to="/account">ClassNotes</NavbarBrand>
+          <NavbarBrand tag={Link} to="/account">
+            ClassNotes
+            <FontAwesomeIcon icon={faMusic} className="me-2" />
+          </NavbarBrand>
           <NavbarToggler onClick={toggle} />
           <Collapse isOpen={isOpen} navbar>
             <Nav className="ms-auto" navbar>
@@ -34,7 +40,19 @@ const Header = () => {
         </Navbar>
       ) : (
         <Navbar className="navbar navbar-expand-md navbar-dark">
-          <NavbarBrand tag={Link} to="/">ClassNotes</NavbarBrand>
+          <NavbarBrand tag={Link} to="/">
+            ClassNotes
+            <img
+              src={ClassNotesLogo}
+              alt="ClassNotes logo"
+              style={{
+                width: '100px',
+                borderRadius: '8px',
+                marginRight: '0px',
+                verticalAlign: 'middle'
+              }}
+            />
+          </NavbarBrand>
           <NavbarToggler onClick={toggle} />
           <Collapse isOpen={isOpen} navbar>
             <Nav className="ms-auto" navbar>
@@ -49,7 +67,7 @@ const Header = () => {
         </Navbar>
       )}
     </div>
-  );  
+  );
 }
 
 export default Header;

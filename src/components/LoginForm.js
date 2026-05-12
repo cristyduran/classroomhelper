@@ -41,7 +41,6 @@ const LoginForm = () => {
                     const authToken = response.data.authToken;
                     localStorage.setItem('authToken', authToken);
                     handleLogin(authToken);
-                    console.log('Received Auth Token:', authToken);
                     navigate('/account');
                 } else {
                     alert('Login was unsuccessful. Check username and/or password.');

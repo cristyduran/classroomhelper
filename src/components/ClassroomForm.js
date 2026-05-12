@@ -60,7 +60,6 @@ const ClassroomForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const authToken = localStorage.getItem('authToken');
-        console.log('Auth Token:', authToken);
 
         // Add your logic to handle the form submission
         try {

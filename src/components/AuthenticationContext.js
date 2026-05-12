@@ -9,7 +9,6 @@ export const AuthenticationContextProvider = ({ children }) => {
   useEffect(() => {
     const storedAuth = localStorage.getItem('authToken');
     setIsAuthenticated(!!storedAuth);
-    console.log('store auth:', storedAuth);
   }, []);
 
   const handleLogin = (authToken) => {

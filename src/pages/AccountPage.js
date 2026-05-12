@@ -8,7 +8,6 @@ import api from '../api/api';
 const AccountPage = () => {
     const [ClassData, setClassData] = useState([]);
     const authToken = localStorage.getItem('authToken');
-    console.log('Retrieved authToken in accountpage:', authToken);
     
     useEffect(() => {
         console.log('useEffect hook executed');

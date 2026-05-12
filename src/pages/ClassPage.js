@@ -10,8 +10,6 @@ const ClassPage = () => {
     const [ classData, setClassData ] = useState(null);
     console.log("Class ID from URL:", classId);
     const authToken = localStorage.getItem('authToken');
-    console.log('Retrieved authToken in classpage:', authToken);
-
     useEffect(() => {
         //Fetch the class data using classId
         const fetchClassData = async () => {
