@@ -16,7 +16,6 @@ import ClassNotesLogo from '../assets/ClassNotesLogo.png';
 
 const Header = () => {
   const { isAuthenticated, handleLogout } = useAuthentication();
-  console.log('header is now authenticated:', isAuthenticated);
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);

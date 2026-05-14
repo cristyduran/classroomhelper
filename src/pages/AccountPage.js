@@ -10,18 +10,13 @@ const AccountPage = () => {
     const authToken = localStorage.getItem('authToken');
     
     useEffect(() => {
-        console.log('useEffect hook executed');
         // Fetch class data from the backend
         const fetchData = async () => {
             try {
                 const headers = authToken ? { Authorization: `Bearer ${authToken}` } : {};
-                
-                console.log(headers);
-                
+                                
                 const response = await api.get('/classes/myClasses', { headers });
-                
-                console.log('Response:', response.data); // Log the response data
-                
+                                
                 setClassData(response.data);
             } catch (error) {
                 console.error('Error fetching class data:', error);

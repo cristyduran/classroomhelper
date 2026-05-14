@@ -8,16 +8,14 @@ import api from '../api/api';
 const ClassPage = () => {
     const { classId } = useParams();
     const [ classData, setClassData ] = useState(null);
-    console.log("Class ID from URL:", classId);
     const authToken = localStorage.getItem('authToken');
+
     useEffect(() => {
         //Fetch the class data using classId
         const fetchClassData = async () => {
             try {
                 const headers = authToken ? { Authorization: `Bearer ${authToken}` } : {};
                 
-                console.log(headers);
-
                 const response = await api.get(`/classes/${classId}`, { headers });
 
                 setClassData(response.data);

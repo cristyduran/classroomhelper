@@ -58,7 +58,6 @@ const RegisterForm = () => {
             password: formData.password,
         })
             .then(res => {
-                console.log('Registration response:', res.data);
                 if (res.data.success) {
                     alert('Registration successful.');
                     // redirect to the login page
@@ -70,7 +69,6 @@ const RegisterForm = () => {
             .catch(error => {
                 console.error('Error:', error);
             });
-        console.log(formData); // Print form data to the console for testing
         // add API call here
     };
 

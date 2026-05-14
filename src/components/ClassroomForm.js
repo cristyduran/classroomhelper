@@ -86,8 +86,6 @@ const ClassroomForm = () => {
             console.error('Error creating class:', error);
             // Handle other potential errors, such as network issues
         }
-
-        //console.log('Form submitted:', classInfo);
     };
 
     return (

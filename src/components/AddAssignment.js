@@ -58,7 +58,6 @@ const AddAssignment = ({ onAddAssignment }) => {
                             id="icon"
                             value={selectedIcon}
                             onChange={(e) => {
-                                console.log('Selected Icon:', e.target.value);
                                 setSelectedIcon(e.target.value)}
                             }
                         >

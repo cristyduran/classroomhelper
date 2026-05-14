@@ -24,8 +24,6 @@ const StudentDataTable = ({ classId }) => {
 
                 const response = await api.get(`/classes/${classId}/student-data`)
 
-                console.log("Student + assignment data:", response.data);
-
                 setStudents(response.data.students);
                 setAssignments(response.data.assignments);
 
