@@ -7,16 +7,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router-dom';
 
 
-const ClassroomForm = () => {
+const ClassroomForm = ({ initialData, isEditMode }) => {
 
     const navigate = useNavigate();
 
-    const [classInfo, setClassInfo] = useState({
-        className: '',
-        gradeLevel: '',
-        students: ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
-        assignments: [],
-    });
+    const [classInfo, setClassInfo] = useState(
+        initialData ? initialData : {
+            className: '',
+            gradeLevel: '',
+            students: ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+            assignments: [],
+        });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -59,23 +60,35 @@ const ClassroomForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+                console.log(initialData)
+    console.log('class_id:', initialData.class_id);
+
         const authToken = localStorage.getItem('authToken');
 
         // Add your logic to handle the form submission
         try {
             // Assume classInfo is the state containing the form data
-            const response = await api.post(
-                '/classes/createClass',
+            const response = isEditMode ? await api.put(
+                `/classes/${initialData.class_id}`,
                 classInfo,
                 {
                     headers: {
                         Authorization: `Bearer ${authToken}`
                     }
                 }
-            );
+            )
+                : await api.post(
+                    '/classes/createClass',
+                    classInfo,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${authToken}`
+                        }
+                    }
+                );
 
             if (response.data.success) {
-                console.log('Class created successfully');
+                isEditMode ? console.log('Class updated successfully') : console.log ('Class created successfully' );
                 // Optionally, you can redirect the user or perform other actions
                 navigate('/account');
             } else {

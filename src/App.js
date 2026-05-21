@@ -8,6 +8,7 @@ import AccountPage from './pages/AccountPage';
 import NewClassPage from './pages/NewClassPage';
 import ClassPage from './pages/ClassPage';
 import Header from './components/Header';
+import EditClassPage from './pages/EditClassPage';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
 
@@ -24,6 +25,7 @@ function App() {
           <Route path='/class/:classId' element={<ClassPage />}></Route>
           <Route path='account' element={<AccountPage/>} />
           <Route path='account/newclass' element={<NewClassPage/>} />
+          <Route path='/class/:classId/edit' element={<EditClassPage/>} />
         </Route>
         </Routes>
       </div>

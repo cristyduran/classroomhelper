@@ -1,13 +1,15 @@
 import React from "react";
 import { Card, CardBody, CardTitle, Button } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const ClassCard = ({ classData }) => {
-    
+
+    const navigate = useNavigate();
 
     const handleEditClick = () => {
-
+        navigate(`/class/${classData.class_id}/edit`);
     }
+
 
     return (
         <Card className="mb-4">
