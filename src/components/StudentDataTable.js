@@ -8,7 +8,8 @@ import {
     faThumbsUp,
     faSnowflake,
     faSun,
-    faFish
+    faFish,
+    faSpinner
 } from '@fortawesome/free-solid-svg-icons';
 import api from '../api/api';
 
@@ -18,10 +19,13 @@ const StudentDataTable = ({ classId }) => {
     const [assignments, setAssignments] = useState([]);
     const [cellStatus, setCellStatus] = useState({});
 
+    // NEW: stores summaries and loading states per student
+    const [summaries, setSummaries] = useState({});
+    const [loadingStudentId, setLoadingStudentId] = useState(null);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-
                 const response = await api.get(`/classes/${classId}/student-data`)
 
                 setStudents(response.data.students);
@@ -30,9 +34,9 @@ const StudentDataTable = ({ classId }) => {
                 const statusMap = {};
                 response.data.completions.forEach(row => {
                     const key = `${row.student_id}-${row.assignment_id}`;
-                    statusMap[key] = row.completed ===1;
+                    statusMap[key] = row.completed === 1;
                 });
-                
+
                 setCellStatus(statusMap);
 
             } catch (error) {
@@ -41,7 +45,7 @@ const StudentDataTable = ({ classId }) => {
         };
         fetchData();
     }, [classId]);
-    
+
     // Toggle cell icon
     const toggleCell = async (student_id, assignment_id) => {
         const key = `${student_id}-${assignment_id}`;
@@ -58,8 +62,42 @@ const StudentDataTable = ({ classId }) => {
                 assignment_id,
                 completed: newValue
             });
-        } catch(error) {
-            console.error ('Failed to save completion', error);
+        } catch (error) {
+            console.error('Failed to save completion', error);
+        }
+    };
+
+    // NEW: calls the AI summary endpoint
+    const generateSummary = async (student) => {
+        setLoadingStudentId(student.student_id);
+
+        // Build the assignments list for this student
+        const studentAssignments = assignments.map(assignment => {
+            const key = `${student.student_id}-${assignment.assignment_id}`;
+            return {
+                name: assignment.assignment_name,
+                completed: cellStatus[key] === true
+            };
+        });
+
+        try {
+            const response = await api.post('/generate-summary', {
+                studentName: student.student_name,
+                assignments: studentAssignments
+            });
+
+            setSummaries(prev => ({
+                ...prev,
+                [student.student_id]: response.data.summary
+            }));
+        } catch (error) {
+            console.error('Failed to generate summary', error);
+            setSummaries(prev => ({
+                ...prev,
+                [student.student_id]: 'Could not generate summary. Please try again.'
+            }));
+        } finally {
+            setLoadingStudentId(null);
         }
     };
 
@@ -72,18 +110,18 @@ const StudentDataTable = ({ classId }) => {
         snowflake: faSnowflake,
         sun: faSun,
         fish: faFish
-      };
+    };
 
     return (
-
-        <Table bordered responsive className="mt-4 text-center" striped style={{ border: '#444' }}
-        >
+        <Table bordered responsive className="mt-4 text-center" striped style={{ border: '#444' }}>
             <thead>
                 <tr>
                     <th>Student</th>
                     {assignments.map(assignment => (
                         <th key={assignment.assignment_id}>{assignment.assignment_name}</th>
                     ))}
+                    {/* NEW: summary column header */}
+                    <th>AI Summary</th>
                 </tr>
             </thead>
             <tbody>
@@ -100,18 +138,51 @@ const StudentDataTable = ({ classId }) => {
                                     onClick={() => toggleCell(student.student_id, assignment.assignment_id)}
                                 >
                                     {cellStatus[key] && (
-                                        <FontAwesomeIcon 
-                                        icon={iconMap[assignment.assignment_icon] || faCheck} 
-                                        color="green" />
+                                        <FontAwesomeIcon
+                                            icon={iconMap[assignment.assignment_icon] || faCheck}
+                                            color="green" />
                                     )}
                                 </td>
                             );
                         })}
+
+                        {/* NEW: summary cell with button and result */}
+                        <td style={{ minWidth: '220px', textAlign: 'left' }}>
+                            <button
+                                onClick={() => generateSummary(student)}
+                                disabled={loadingStudentId === student.student_id}
+                                style={{
+                                    fontSize: '12px',
+                                    padding: '4px 10px',
+                                    marginBottom: summaries[student.student_id] ? '6px' : '0'
+                                }}
+                            >
+                                {loadingStudentId === student.student_id ? (
+                                    <>
+                                        <FontAwesomeIcon icon={faSpinner} spin style={{ marginRight: '4px' }} />
+                                        Generating...
+                                    </>
+                                ) : (
+                                    '✨ Generate Summary'
+                                )}
+                            </button>
+
+                            {summaries[student.student_id] && (
+                                <p style={{
+                                    fontSize: '12px',
+                                    margin: '0',
+                                    color: '#444',
+                                    fontStyle: 'italic',
+                                    lineHeight: '1.4'
+                                }}>
+                                    {summaries[student.student_id]}
+                                </p>
+                            )}
+                        </td>
                     </tr>
                 ))}
             </tbody>
         </Table>
-
     );
 };
 
