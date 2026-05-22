@@ -58,11 +58,16 @@ const ClassroomForm = ({ initialData, isEditMode }) => {
         setClassInfo({ ...classInfo, assignments: updatedAssignments });
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-                console.log(initialData)
-    console.log('class_id:', initialData.class_id);
+    const handleDeleteStudent = (index) => {
+        const updatedStudent = [...classInfo.students];
+        updatedStudent.splice(index, 1);
+        setClassInfo({ ...classInfo, students: updatedStudent });
+    };
 
+    const handleSubmit = async (e) => {
+        console.log(isEditMode, initialData)
+
+        e.preventDefault();
         const authToken = localStorage.getItem('authToken');
 
         // Add your logic to handle the form submission
@@ -88,7 +93,7 @@ const ClassroomForm = ({ initialData, isEditMode }) => {
                 );
 
             if (response.data.success) {
-                isEditMode ? console.log('Class updated successfully') : console.log ('Class created successfully' );
+                isEditMode ? console.log('Class updated successfully') : console.log('Class created successfully');
                 // Optionally, you can redirect the user or perform other actions
                 navigate('/account');
             } else {
@@ -100,6 +105,8 @@ const ClassroomForm = ({ initialData, isEditMode }) => {
             // Handle other potential errors, such as network issues
         }
     };
+
+
 
     return (
         <Container>
@@ -147,13 +154,20 @@ const ClassroomForm = ({ initialData, isEditMode }) => {
                                 <Label>Student Names</Label>
                                 {classInfo.students.map((student, index) => (
                                     <div key={index} className="d-flex align-items-center mb-2">
+                                        <Col>
+                                            <Button size="sm" color="danger" className="me-2" onClick={() => handleDeleteStudent(index)}>
+                                                X
+                                            </Button>
+                                        </Col>
                                         <Input
                                             type="text"
                                             placeholder={`Student ${index + 1}`}
                                             value={student}
                                             onChange={(e) => handleStudentNameChange(index, e.target.value)}
                                         />
+
                                     </div>
+
                                 ))}
                                 <Button type="button" onClick={handleAddStudent}>
                                     Add More Students
